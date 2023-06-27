@@ -1,173 +1,194 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>
-        {% if track_name %}
-        Now Playing | {{ track_name }}
-        {% else %}
-        Spotify
-        {% endif %}
+      {% if track_name %} Now Playing | {{ track_name }} {% else %} Spotify {%
+      endif %}
     </title>
-    <link rel="icon" href="{{image_url}}">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{image_url}}" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
-        body {
-            background-color: #111;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+      @import url('https://fonts.googleapis.com/css2?family=Hubballi&display=swap');
+      body {
+        background-color: #111;
+        color: #fff;
+        font-family: "Hubballi";
+        margin: 0;
+        padding: 0;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 10px;
+        background-color: #666;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+
+      .progress {
+        height: 100%;
+        width: 0;
+        background-color: #1ab26b;
+        border-radius: 5px;
+      }
+
+      .header {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #000;
+        box-shadow: 0px 1px 20px rgb(26, 178, 107);
+      }
+
+      .header img {
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .header h1 {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      p {
+        margin: 0;
+        margin-bottom: 10px;
+      }
+
+      .card {
+        position: relative;
+        padding: 20px;
+        border-radius: 35px;
+        background-color: rgba(0, 0, 0, 0.7);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+      }
+
+      .shining-border {
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border-radius: 39px;
+        animation: shiningAnimation 4s linear infinite;
+      }
+
+      @keyframes shiningAnimation {
+        0% {
+          box-shadow: 1px 1px 20px rgb(26, 178, 107);
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #666;
-            border-radius: 5px;
-            margin-top: 10px;
+        25% {
+          box-shadow: 1px 1px 20px rgb(255, 0, 0);
         }
 
-        .progress {
-            height: 100%;
-            width: 0;
-            background-color: #1AB26B;
-            border-radius: 5px;
+        50% {
+          box-shadow: 1px 1px 20px rgb(0, 0, 255);
         }
 
-        .header {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #000;
+        75% {
+          box-shadow: 1px 1px 20px rgb(255, 255, 0);
         }
 
-        .header img {
-            height: 40px;
-            margin-right: 10px;
+        100% {
+          box-shadow: 1px 1px 20px rgb(26, 178, 107);
         }
+      }
 
-        .header h1 {
-            font-size: 20px;
-            font-weight: bold;
-            margin: 0;
-        }
+      .album-details {
+        display: flex;
+        align-items: flex-start;
+      }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+      .album-cover {
+        width: 200px;
+        height: 200px;
+        margin-right: 20px;
+      }
 
-        h1 {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+      img.album-cover {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 1px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #000;
+      }
 
-        p {
-            margin: 0;
-            margin-bottom: 10px;
-        }
+      /* Стили для футера */
+      footer {
+        background-color: #000;
+        color: #fff;
+        padding: 5px;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+      }
 
-        .card {
-            position: relative;
-            padding: 20px;
-            border-radius: 35px;
-            background-color: rgba(0, 0, 0, 0.7);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-        }
-
-        .shining-border {
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: 39px;
-            animation: shiningAnimation 4s linear infinite;
-        }
-
-        @keyframes shiningAnimation {
-            0% {
-                box-shadow: 1px 1px 20px rgb(26, 178, 107);
-            }
-
-            25% {
-                box-shadow: 1px 1px 20px rgb(255, 0, 0);
-            }
-
-            50% {
-                box-shadow: 1px 1px 20px rgb(0, 0, 255);
-            }
-
-            75% {
-                box-shadow: 1px 1px 20px rgb(255, 255, 0);
-            }
-
-            100% {
-
-                box-shadow: 1px 1px 20px rgb(26, 178, 107);
-            }
-        }
-
-        .album-details {
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .album-cover {
-            width: 200px;
-            height: 200px;
-            margin-right: 20px;
-        }
-
-        img.album-cover {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 1px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #000;
-        }
-        
+      .shining-text {
+        position: relative;
+        text-shadow: 1px 1px 5px rgb(136,108,228),
+          1px 1px 5px rgb(136,108,228), 1px 1px 3px rgb(136,108,228),
+          1px 1px 5px rgb(136,108,228);
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="header">
-        <img src="{{url_for('static', filename='spotify_logo.png')}}" alt="Spotify Logo">
+      <img
+        src="{{url_for('static', filename='spotify_logo.png')}}"
+        alt="Spotify Logo"
+      />
     </div>
-    {% if track_name %}
     <h1>Now Playing</h1>
-    {% else %}
-    {% endif %}
     <div class="container">
-        <div class="card">
-            <div class="shining-border"></div>
-            {% if track_name %}
-            <div class="album-details">
-                <div>
-                    <img class="album-cover" src="{{ image_url }}" alt="Album Cover">
-                </div>
-                <div>
-                    <h1>{{ track_name }}</h1>
-                    <p><strong>Artists:</strong> {{ artists }}</p>
-                    <p><strong>Album:</strong> {{ album }}</p>
-                    <p><strong>Duration:</strong> {{ duration_min }} min {{ duration_sec }} sec</p>
-                    <p><strong>Release Date:</strong> {{ release_date }}</p>
-                </div>
-            </div>
-            {% else %}
-            <p>No track is currently playing.</p>
-            {% endif %}
+      <div class="card">
+        <div class="shining-border"></div>
+        {% if track_name %}
+        <div class="album-details">
+          <div>
+            <img class="album-cover" src="{{ image_url }}" alt="Album Cover" />
+          </div>
+          <div>
+            <h1>{{ track_name }}</h1>
+            <p><strong>Artists:</strong> {{ artists }}</p>
+            <p><strong>Album:</strong> {{ album }}</p>
+            <p>
+              <strong>Duration:</strong> {{ duration_min }} min {{
+              duration_sec}} sec
+            </p>
+            <p><strong>Release Date:</strong> {{ release_date }}</p>
+          </div>
         </div>
+        {% else %}
+        <p>No track is currently playing.</p>
+        {% endif %}
+      </div>
     </div>
-</body>
 
+    <footer>
+      <p>Developed with 💜 by <span class="shining-text">Hikamoru</span></p>
+    </footer>
+  </body>
 </html>
